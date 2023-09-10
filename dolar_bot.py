@@ -38,7 +38,7 @@ Comandos:
     def bluenow(message):
         # responde al usuario con el valor actual de compra y venta
         bot.reply_to(message, text=f'''
-El dólar está {tools.blue(dolar_registrado)['venta']} en venta y {tools.blue(dolar_registrado)['compra']} en compra.
+El dólar está {tools.json_lector(dolar_registrado)["venta"]} en venta y {tools.json_lector(dolar_registrado)["compra"]} en compra.
 VIVA PERÓN ✌️
 ''')
 
@@ -81,12 +81,13 @@ VIVA PERÓN ✌️
 # thread de aviso de subida del dolar
 def message_send():
     # valor de inicio referencial
-    value = int(tools.json_lector(dolar_registrado)["venta"])
+    referencia = tools.json_lector(dolar_registrado)["venta"]
     # single use para el 505
     single_use = True
     while 1:
+        dolar_now = tools.blue(dolar_registrado)
         # si el dolar esta 505 y singe use == True
-        if  tools.blue(dolar_registrado)['venta'] == 505 and single_use:
+        if  dolar_now['venta'] == 505 and single_use:
             # aviso a todos los suscritos
             for user in tools.txt_lector(users_subs):
                 bot.send_message(chat_id = user, text='''
@@ -96,23 +97,23 @@ https://www.youtube.com/watch?v=qU9mHegkTc4''')
             single_use = False
 
         # si el valor es mayor en 10 pesos desde la referencia
-        elif tools.blue(dolar_registrado)['venta'] >= value + 10 and tools.txt_lector(users_subs):
+        elif dolar_now['venta'] >= referencia + 10 and tools.txt_lector(users_subs):
             # pongo una nueva referencia
-            value = tools.json_lector(dolar_registrado)["venta"]
+            referencia = tools.json_lector(dolar_registrado)["venta"]
             # aviso
             for user in tools.txt_lector(users_subs):
-                bot.send_message(chat_id = user, text= f'El dolar subió a {value} VIVA PERÓN ✌️. Está {tools.blue(dolar_registrado)["venta"]}')
+                bot.send_message(chat_id = user, text= f'El dolar subió a {referencia} VIVA PERÓN ✌️. Está {dolar_now["venta"]}')
 
         # si el valor es menor en 10 pesos desde la referencia
-        elif tools.blue(dolar_registrado)['venta'] <= value - 10 and tools.txt_lector(users_subs):
+        elif dolar_now['venta'] <= referencia - 10 and tools.txt_lector(users_subs):
             # pongo una nueva referencia
-            value = tools.json_lector(dolar_registrado)["venta"]
+            referencia = tools.json_lector(dolar_registrado)["venta"]
             # aviso
             for user in tools.txt_lector(users_subs):
-                bot.send_message(chat_id = user, text= f'El dolar bajó a {value} VIVA PERÓN ✌️. Está {tools.blue(dolar_registrado)["venta"]}')
+                bot.send_message(chat_id = user, text= f'El dolar bajó a {referencia} VIVA PERÓN ✌️. Está {dolar_now["venta"]}')
 
         # si el dolar no está 505
-        if not tools.blue(dolar_registrado)['venta'] == 505:
+        if not dolar_now['venta'] == 505:
             # reinicio el trigger
             single_use = True
 
