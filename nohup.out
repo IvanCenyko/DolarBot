@@ -1,0 +1,26 @@
+Exception in thread Thread-2:
+Traceback (most recent call last):
+  File "/home/helyivan/Documentos/venvs/telegram_bots/lib/python3.9/site-packages/requests/models.py", line 971, in json
+    return complexjson.loads(self.text, **kwargs)
+  File "/usr/lib/python3.9/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.9/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.9/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.9/threading.py", line 954, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.9/threading.py", line 892, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/helyivan/Documentos/Proyectos/dolar_bot.py", line 88, in message_send
+    dolar_now = tools.blue(dolar_registrado)
+  File "/home/helyivan/Documentos/Proyectos/tools.py", line 39, in blue
+    dolar = requests.get('https://apiweb-ivancenyko.vercel.app/dolar-blue').json()
+  File "/home/helyivan/Documentos/venvs/telegram_bots/lib/python3.9/site-packages/requests/models.py", line 975, in json
+    raise RequestsJSONDecodeError(e.msg, e.doc, e.pos)
+requests.exceptions.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
