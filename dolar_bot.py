@@ -20,7 +20,7 @@ def telegram_bot():
     def start(message):
         bot.reply_to(message, text=f'''
 Hola soy InzaBot, usá /help para lista de comandos ✌️
-CFK 2023!
+CFK 2025!
 ''')
 
     # comando help
@@ -39,7 +39,7 @@ Comandos:
         # responde al usuario con el valor actual de compra y venta
         bot.reply_to(message, text=f'''
 El dólar está {tools.json_lector(dolar_registrado)["venta"]} en venta y {tools.json_lector(dolar_registrado)["compra"]} en compra.
-VIVA PERÓN ✌️
+VLLC 🦁
 ''')
 
     #añadir a lista de usuarios que se avisa cuando sube el dolar
@@ -82,27 +82,17 @@ VIVA PERÓN ✌️
 def message_send():
     # valor de inicio referencial
     referencia = tools.json_lector(dolar_registrado)["venta"]
-    # single use para el 505
-    single_use = True
+
     while 1:
         dolar_now = tools.blue(dolar_registrado)
-        # si el dolar esta 505 y singe use == True
-        if  dolar_now['venta'] == 505 and single_use:
-            # aviso a todos los suscritos
-            for user in tools.txt_lector(users_subs):
-                bot.send_message(chat_id = user, text='''
-EL DOLAR LLEGÓ A 505 - ARCTIC MONKEYS
-https://www.youtube.com/watch?v=qU9mHegkTc4''')
-            # pongo single use en false para que no se repita
-            single_use = False
 
         # si el valor es mayor en 10 pesos desde la referencia
-        elif dolar_now['venta'] >= referencia + 10 and tools.txt_lector(users_subs):
+        if dolar_now['venta'] >= referencia + 10 and tools.txt_lector(users_subs):
             # pongo una nueva referencia
             referencia = tools.json_lector(dolar_registrado)["venta"]
             # aviso
             for user in tools.txt_lector(users_subs):
-                bot.send_message(chat_id = user, text= f'El dolar subió a {referencia} VIVA PERÓN ✌️. Está {dolar_now["venta"]}')
+                bot.send_message(chat_id = user, text= f'El dolar subió a {referencia} VLLC 🦁. Está {dolar_now["venta"]}')
 
         # si el valor es menor en 10 pesos desde la referencia
         elif dolar_now['venta'] <= referencia - 10 and tools.txt_lector(users_subs):
@@ -110,12 +100,8 @@ https://www.youtube.com/watch?v=qU9mHegkTc4''')
             referencia = tools.json_lector(dolar_registrado)["venta"]
             # aviso
             for user in tools.txt_lector(users_subs):
-                bot.send_message(chat_id = user, text= f'El dolar bajó a {referencia} VIVA PERÓN ✌️. Está {dolar_now["venta"]}')
+                bot.send_message(chat_id = user, text= f'El dolar bajó a {referencia} VLLC 🦁. Está {dolar_now["venta"]}')
 
-        # si el dolar no está 505
-        if not dolar_now['venta'] == 505:
-            # reinicio el trigger
-            single_use = True
 
         # sleep para sobrecargar menos las revisiones
         time.sleep(1)
