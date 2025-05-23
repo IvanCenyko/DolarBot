@@ -1,9 +1,14 @@
 import requests, queue, threading, time, random, telebot
 from bs4 import BeautifulSoup
 import tools
+from dotenv import load_dotenv
+import os #provides ways to access the Operating System and allows us to read the environment variables
 
+load_dotenv()
+
+key = os.getenv("TELEGRAM_KEY")
 #bot token
-bot = telebot.TeleBot('6204169915:AAHO-Nh2HgMZk3h-NlyrNT1tLb4ioU1D44k')
+bot = telebot.TeleBot(key)
 #multithreading init
 q = queue.Queue()
 #save DIRs
